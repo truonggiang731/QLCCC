@@ -25,24 +25,24 @@ public class JwtTokenProvider {
     private long jwtExpirationDate;
 
     // generate JWT token
-//    public String generateToken(Authentication authentication){
-//        String username = authentication.getName();
-//
-//
-//
-//
-//        Date currentDate = new Date();
-//
-//        Date expireDate = new Date(currentDate.getTime() + jwtExpirationDate);
-//
-//        String token = Jwts.builder()
-//                .setSubject(username)
-//                .setIssuedAt(new Date())
-//                .setExpiration(expireDate)
-//                .signWith(key())
-//                .compact();
-//        return token;
-//    }
+    public String generateToken(Authentication authentication){
+        String username = authentication.getName();
+
+
+
+
+        Date currentDate = new Date();
+
+        Date expireDate = new Date(currentDate.getTime() + jwtExpirationDate);
+
+        String token = Jwts.builder()
+                .setSubject(username)
+                .setIssuedAt(new Date())
+                .setExpiration(expireDate)
+                .signWith(key())
+                .compact();
+        return token;
+    }
 
     private Key key(){
         return Keys.hmacShaKeyFor(
@@ -80,17 +80,5 @@ public class JwtTokenProvider {
         }
     }
 
-    public String generateToken(String username, Set<String> roles){
-        Date currentDate = new Date();
-        Date expireDate = new Date(currentDate.getTime() + jwtExpirationDate);
 
-        String token = Jwts.builder()
-                .setSubject(username)
-                .claim("roles", roles) // Thêm thông tin về vai trò vào claim
-                .setIssuedAt(new Date())
-                .setExpiration(expireDate)
-                .signWith(key())
-                .compact();
-        return token;
-    }
 }

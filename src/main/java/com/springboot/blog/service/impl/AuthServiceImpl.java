@@ -4,7 +4,7 @@ import com.springboot.blog.entity.Role;
 import com.springboot.blog.entity.User;
 import com.springboot.blog.exception.BlogAPIException;
 import com.springboot.blog.payload.LoginDto;
-import com.springboot.blog.payload.RegisterDto;
+import com.springboot.blog.payload.UserDto;
 import com.springboot.blog.repository.RoleRepository;
 import com.springboot.blog.repository.UserRepository;
 import com.springboot.blog.security.JwtTokenProvider;
@@ -19,7 +19,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 public class AuthServiceImpl implements AuthService {
@@ -46,28 +45,11 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public String login(LoginDto loginDto) {
 
-//        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-//                loginDto.getUsernameOrEmail(), loginDto.getPassword()));
-//
-//        SecurityContextHolder.getContext().setAuthentication(authentication);
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                loginDto.getUsernameOrEmail(), loginDto.getPassword()));
 
-        //////////
-        String userNameOrEmail = loginDto.getUsernameOrEmail();
-        String password = loginDto.getPassword();
-        User user = userRepository.findByUsernameOrEmail(userNameOrEmail, userNameOrEmail)
-                .orElseThrow(() -> new BlogAPIException(HttpStatus.NOT_FOUND, "User not found."));
-
-        // Lấy danh sách vai trò của người dùng
-        Set<String> roles = user.getRoles().stream()
-                .map(role -> role.getName())
-                .collect(Collectors.toSet());
-
-
-        // Tạo mã thông báo JWT với thông tin người dùng và vai trò
-        String token = jwtTokenProvider.generateToken(userNameOrEmail, roles);
-
-
-        ///String token = jwtTokenProvider.generateToken(authentication);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        String token = jwtTokenProvider.generateToken(authentication);
 
         return token;
     }
@@ -76,7 +58,7 @@ public class AuthServiceImpl implements AuthService {
 
 
     @Override
-    public String register(RegisterDto registerDto) {
+    public String register(UserDto registerDto) {
 
         // add check for username exists in database
         if(userRepository.existsByUsername(registerDto.getUsername())){
@@ -93,6 +75,10 @@ public class AuthServiceImpl implements AuthService {
         user.setUsername(registerDto.getUsername());
         user.setEmail(registerDto.getEmail());
         user.setPassword(passwordEncoder.encode(registerDto.getPassword()));
+        user.setSex(registerDto.getSex());
+        user.setPhoneNumber(registerDto.getPhoneNumber());
+        user.setAddress(registerDto.getAddress());
+        user.setDateOfBirth(registerDto.getDateOfBirth());
 
         Set<Role> roles = new HashSet<>();
         Role userRole = roleRepository.findByName("ROLE_USER").get();

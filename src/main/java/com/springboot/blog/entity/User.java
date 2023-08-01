@@ -27,6 +27,15 @@ public class User {
     private String email;
     @Column(nullable = false)
     private String password;
+    @Column(nullable = false)
+    private String dateOfBirth;
+    @Column(nullable = false)
+    private String address;
+    @Column(nullable = false)
+    private String sex;
+    @Column(nullable = false)
+    private String phoneNumber;
+
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<HopDong> hopDong;
