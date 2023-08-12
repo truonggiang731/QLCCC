@@ -54,4 +54,8 @@ public class HopDongController {
         List<HopDongDto> hopDongDtos = hopDongService.getHopDongByDichVuId(dichVuId);
         return ResponseEntity.ok(hopDongDtos);
     }
+    @GetMapping
+    public ResponseEntity<List<HopDongDto>> getAllHopDong(){
+        return new ResponseEntity<>(hopDongService.getAllHopDong(), HttpStatus.OK);
+    }
 }

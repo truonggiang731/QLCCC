@@ -18,8 +18,8 @@ public class LoaiDichVu {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable = false, unique = true)
-    private String tenLoaiDichVu;
+//    @Column(nullable = false, unique = true)
+    private String name;
 
     @OneToMany(mappedBy = "loaiDichVu", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<DichVu> dichVu;

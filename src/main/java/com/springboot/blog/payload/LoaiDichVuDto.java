@@ -8,5 +8,5 @@ import lombok.*;
 @AllArgsConstructor
 public class LoaiDichVuDto {
     private long id;
-    private String tenLoaiDichVu;
+    private String name;
 }

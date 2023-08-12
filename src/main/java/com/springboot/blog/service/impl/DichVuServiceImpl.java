@@ -30,6 +30,7 @@ public class DichVuServiceImpl implements DichVuService {
 
         DichVu dichVu = mapToEntity(dichVuDto);
         dichVu.setLoaiDichVu(loaiDichVu);
+        dichVu.setTrangThai("Chưa sử dụng");
         DichVu newDichVu = dichVuRepository.save(dichVu);
 
         return mapToDTO(newDichVu);
@@ -77,7 +78,6 @@ public class DichVuServiceImpl implements DichVuService {
 
         dichVu.setTenDichVu(dichVuDto.getTenDichVu());
         dichVu.setDonGia(dichVuDto.getDonGia());
-        dichVu.setTrangThai(dichVuDto.getTrangThai());
         dichVu.setLoaiDichVu(loaiDichVu);
         DichVu updateDichVu = dichVuRepository.save(dichVu);
         return mapToDTO(updateDichVu);

@@ -14,6 +14,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -40,8 +42,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDto> getAllUserByRoleId(Long id) {
-        return null;
+    public List<UserDto> getAllUserByRoleId() {
+        List<User> user = userRepository.findAll();
+        return user.stream().map(user1 -> modelMapper.map(user1,UserDto.class)).collect(Collectors.toList());
     }
 
     @Override

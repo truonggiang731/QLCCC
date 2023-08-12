@@ -8,7 +8,8 @@ import java.util.List;
 
 public interface CanHoService {
 
-    CanHoResponse getAllCanHo(int pageNo, int pageSize, String sortBy, String sortDir);
+    //CanHoResponse getAllCanHo(int pageNo, int pageSize, String sortBy, String sortDir);
+    List<CanHoDto> getAllCanHo();
 
     CanHoDto addCanHo(CanHoDto canHoDto);
 

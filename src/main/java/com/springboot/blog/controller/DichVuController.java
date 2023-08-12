@@ -14,6 +14,8 @@ import java.util.List;
 @RequestMapping("/api/v1/dichvu")
 public class DichVuController {
     private DichVuService dichVuService;
+
+    public DichVuController (DichVuService dichVuService){this.dichVuService = dichVuService;}
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<DichVuDto> addDichVu(@RequestBody DichVuDto dichVuDto){

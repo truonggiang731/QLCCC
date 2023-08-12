@@ -21,7 +21,7 @@ public class LoaiDichVuController {
 
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<LoaiDichVuDto> addLoaiDichVu(LoaiDichVuDto loaiDichVuDto){
+    public ResponseEntity<LoaiDichVuDto> addLoaiDichVu(@RequestBody LoaiDichVuDto loaiDichVuDto){
         LoaiDichVuDto addLoaiDichVuDto = loaiDichVuService.addLoaiDichVu(loaiDichVuDto);
         return new ResponseEntity<>(addLoaiDichVuDto, HttpStatus.CREATED);
     }

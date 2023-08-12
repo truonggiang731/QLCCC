@@ -90,7 +90,8 @@ public class HopDongServiceImpl implements HopDongService {
     @Override
     public void deleteHopDong(long id) {
         HopDong hopDong = hopDongRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Hop dong", "id", id));
-        hopDongRepository.delete(hopDong);
+        hopDong.setTrangThai("Đã hủy");
+        hopDongRepository.save(hopDong);
     }
 
     @Override
@@ -122,5 +123,11 @@ public class HopDongServiceImpl implements HopDongService {
 
         return hopDongs.stream().map(hopDong -> mapToDTO(hopDong))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<HopDongDto> getAllHopDong() {
+        List<HopDong> hopDongs = hopDongRepository.findAll();
+        return hopDongs.stream().map(hopDong -> mapToDTO(hopDong)).collect(Collectors.toList());
     }
 }

@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/user")
 public class UserController {
@@ -21,13 +23,13 @@ public class UserController {
         return new ResponseEntity<>(userService.getUserByUsernameOrEmail(name), HttpStatus.OK);
     }
     @PreAuthorize("hasRole('ADMIN')")
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteUser(@PathVariable Long id){
         userService.deleteUser(id);
         return new ResponseEntity<>("user deleted.",HttpStatus.OK);
     }
     @PreAuthorize("hasRole('ADMIN')")
-    @PutMapping
+    @PutMapping("/{id}")
     public ResponseEntity<UserDto> updateUser(@RequestBody UserDto userDto, @PathVariable Long id){
         UserDto updateUser = userService.updateUser(userDto, id);
         return new ResponseEntity<>(updateUser, HttpStatus.OK);
@@ -37,5 +39,9 @@ public class UserController {
     public ResponseEntity<UserDto> resetPassword(@RequestBody ResetPasswordDto resetPasswordDto, @PathVariable("id") Long id){
         UserDto rsPass = userService.resetPassword(resetPasswordDto, id);
         return new ResponseEntity<>(rsPass,HttpStatus.OK);
+    }
+    @GetMapping
+    public ResponseEntity<List<UserDto>> getAllUserByRoleId(){
+        return new ResponseEntity<>(userService.getAllUserByRoleId(), HttpStatus.OK);
     }
 }

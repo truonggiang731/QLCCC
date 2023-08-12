@@ -22,11 +22,11 @@ public class DichVu {
     @Column(nullable = false, unique = true)
     private String tenDichVu;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private long donGia;
 
     @Column(nullable = false)
-    private long trangThai;
+    private String trangThai;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "loaidichvu_id")

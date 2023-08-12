@@ -1,19 +1,18 @@
 package com.springboot.blog.service.impl;
 
 import com.springboot.blog.entity.*;
+import com.springboot.blog.exception.BlogAPIException;
 import com.springboot.blog.exception.ResourceNotFoundException;
 import com.springboot.blog.payload.CanHoDto;
 import com.springboot.blog.payload.CanHoResponse;
-import com.springboot.blog.repository.CanHoRepository;
-import com.springboot.blog.repository.LoaiCanHoRepository;
-import com.springboot.blog.repository.ToaNhaRepository;
-import com.springboot.blog.repository.UserRepository;
+import com.springboot.blog.repository.*;
 import com.springboot.blog.service.CanHoService;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,40 +30,49 @@ public class CanHoServiceImpl implements CanHoService {
     private ToaNhaRepository toaNhaRepository;
 
     private UserRepository userRepository;
+    private HopDongRepository hopDongRepository;
 
 
-    public CanHoServiceImpl(CanHoRepository canHoRepository, ModelMapper modelMapper, LoaiCanHoRepository loaiCanHoRepository, ToaNhaRepository toaNhaRepository, UserRepository userRepository){
+    public CanHoServiceImpl(CanHoRepository canHoRepository,HopDongRepository hopDongRepository,
+                            ModelMapper modelMapper, LoaiCanHoRepository loaiCanHoRepository, ToaNhaRepository toaNhaRepository, UserRepository userRepository){
         this.canHoRepository = canHoRepository;
         this.modelMapper = modelMapper;
         this.loaiCanHoRepository = loaiCanHoRepository;
         this.toaNhaRepository = toaNhaRepository;
         this.userRepository = userRepository;
+        this.hopDongRepository = hopDongRepository;
     }
 
+//    @Override
+//    public CanHoResponse getAllCanHo(int pageNo, int pageSize, String sortBy, String sortDir){
+//        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
+//                : Sort.by(sortBy).descending();
+//
+//        // create Pageable instance
+//        Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
+//
+//        Page<CanHo> canHos = canHoRepository.findAll(pageable);
+//
+//        // get content for page object
+//        List<CanHo> listOfCanHo = canHos.getContent();
+//
+//        List<CanHoDto> content= listOfCanHo.stream().map(canHo -> mapToDTO( canHo)).collect(Collectors.toList());
+//
+//        CanHoResponse canHoReponse = new CanHoResponse();
+//        canHoReponse.setContent(content);
+//        canHoReponse.setPageNo(canHos.getNumber());
+//        canHoReponse.setPageSize(canHos.getSize());
+//        canHoReponse.setTotalElements(canHos.getTotalElements());
+//        canHoReponse.setTotalPages(canHos.getTotalPages());
+//        canHoReponse.setLast(canHos.isLast());
+//
+//        return canHoReponse;
+//    }
     @Override
-    public CanHoResponse getAllCanHo(int pageNo, int pageSize, String sortBy, String sortDir){
-        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
-                : Sort.by(sortBy).descending();
-
-        // create Pageable instance
-        Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
-
-        Page<CanHo> canHos = canHoRepository.findAll(pageable);
-
-        // get content for page object
-        List<CanHo> listOfCanHo = canHos.getContent();
-
-        List<CanHoDto> content= listOfCanHo.stream().map(canHo -> mapToDTO( canHo)).collect(Collectors.toList());
-
-        CanHoResponse canHoReponse = new CanHoResponse();
-        canHoReponse.setContent(content);
-        canHoReponse.setPageNo(canHos.getNumber());
-        canHoReponse.setPageSize(canHos.getSize());
-        canHoReponse.setTotalElements(canHos.getTotalElements());
-        canHoReponse.setTotalPages(canHos.getTotalPages());
-        canHoReponse.setLast(canHos.isLast());
-
-        return canHoReponse;
+    public List<CanHoDto> getAllCanHo(){
+        List<CanHo> canHos = canHoRepository.findAll();
+        return canHos.stream().map(canHo -> modelMapper.map(canHo, CanHoDto.class))
+                .collect(Collectors.toList());
     }
     @Override
     public CanHoDto addCanHo(CanHoDto canHoDto) {
@@ -76,6 +84,7 @@ public class CanHoServiceImpl implements CanHoService {
         CanHo canHo = mapToEntity(canHoDto);
         canHo.setLoaiCanHo(loaiCanHo);
         canHo.setToaNha(toaNha);
+        canHo.setTrangThai("Chưa được sử dụng");
         CanHo newCanHo = canHoRepository.save(canHo);
 
         CanHoDto canHoResponse = mapToDTO(newCanHo);
@@ -103,7 +112,9 @@ public class CanHoServiceImpl implements CanHoService {
     @Override
     public void deleteCanHo(long id) {
         CanHo canHo = canHoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Can Ho", "id", id));
-        canHoRepository.delete(canHo);
+        List<HopDong> hopDong = hopDongRepository.findHopDongByCanHoId(id);
+        if(hopDong == null) canHoRepository.delete(canHo);
+        else throw new BlogAPIException(HttpStatus.NOT_ACCEPTABLE, "can ho khong the xoa");
     }
 
     @Override

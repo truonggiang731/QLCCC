@@ -18,6 +18,7 @@ public class HoaDonDto {
     @NotEmpty
     @Size(min = 2, message = "Ngay lap mustn't be more than current day")
     private String ngayLap;
+    private String trangThai;
 
 
     @Schema(

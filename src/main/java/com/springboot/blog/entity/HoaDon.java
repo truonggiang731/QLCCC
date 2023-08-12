@@ -18,13 +18,13 @@ public class HoaDon {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String ngayLap;
-    @Column(nullable = false, unique = true)
     private String ngayThanhToan;
     @Column(nullable = false)
     private Long tongTien;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "hopdong_id")
     private HopDong hopDong;
+    private String trangThai;
 }

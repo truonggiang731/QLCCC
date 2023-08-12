@@ -2,6 +2,7 @@ package com.springboot.blog.payload;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.Getter;
@@ -23,6 +24,7 @@ public class CanHoDto {
     private String tenCanHo;
 
     private String ghiChu;
+    private String trangThai;
 
 //    @Schema(
 //            description = "Chu can ho"
@@ -33,13 +35,13 @@ public class CanHoDto {
     @Schema(
             description = "Loai can ho"
     )
-    @NotEmpty
+    @NotNull
     private Long loaiCanHoId;
 
     @Schema(
             description = "Toa nha chua can ho"
     )
-    @NotEmpty
+    @NotNull
     private Long toaNhaId;
 }
 

@@ -25,7 +25,12 @@ public class LoaiDichVuServiceImpl implements LoaiDichVuService {
     }
     @Override
     public LoaiDichVuDto addLoaiDichVu(LoaiDichVuDto loaiDichVuDto){
+        if(loaiDichVuDto != null) System.out.println(loaiDichVuDto.getName());
+        else System.out.println("0000000000000000000000000");
+
         LoaiDichVu loaiDichVu = modelMapper.map(loaiDichVuDto, LoaiDichVu.class);
+        if(loaiDichVu != null) System.out.println(loaiDichVu.getName());
+        else System.out.println("0000000000000000000000000");
         LoaiDichVu saveLoaiDichVu = loaiDichVuRepository.save(loaiDichVu);
         return modelMapper.map(saveLoaiDichVu,LoaiDichVuDto.class);
     }
@@ -43,7 +48,7 @@ public class LoaiDichVuServiceImpl implements LoaiDichVuService {
         LoaiDichVu loaiDichVu = loaiDichVuRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Loai dich vu", "id", id));
 
-        loaiDichVu.setTenLoaiDichVu(loaiDichVuDto.getTenLoaiDichVu());
+        loaiDichVu.setName(loaiDichVuDto.getName());
         LoaiDichVu updateLoaiDichVu = loaiDichVuRepository.save(loaiDichVu);
         return modelMapper.map(updateLoaiDichVu, LoaiDichVuDto.class);
     }

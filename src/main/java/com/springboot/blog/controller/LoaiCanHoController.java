@@ -32,7 +32,7 @@ public class LoaiCanHoController {
 
     // Build Get All Categories REST API
     @GetMapping
-    public ResponseEntity<List<LoaiCanHoDto>> getLoaiCanHo(){
+    public ResponseEntity<List<LoaiCanHoDto>> getAllLoaiCanHo(){
         return ResponseEntity.ok(loaiCanHoService.getAllLoaiCanHo());
     }
 
