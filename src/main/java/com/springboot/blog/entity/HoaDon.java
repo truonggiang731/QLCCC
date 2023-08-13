@@ -21,7 +21,6 @@ public class HoaDon {
     @Column(nullable = false)
     private String ngayLap;
     private String ngayThanhToan;
-    @Column(nullable = false)
     private Long tongTien;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "hopdong_id")

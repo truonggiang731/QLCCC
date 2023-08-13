@@ -1,15 +1,9 @@
 package com.springboot.blog.controller;
 
 import com.springboot.blog.payload.CanHoDto;
-import com.springboot.blog.payload.CanHoResponse;
 import com.springboot.blog.service.CanHoService;
-import com.springboot.blog.utils.AppConstants;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;

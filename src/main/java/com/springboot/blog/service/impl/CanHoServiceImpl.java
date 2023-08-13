@@ -4,14 +4,9 @@ import com.springboot.blog.entity.*;
 import com.springboot.blog.exception.BlogAPIException;
 import com.springboot.blog.exception.ResourceNotFoundException;
 import com.springboot.blog.payload.CanHoDto;
-import com.springboot.blog.payload.CanHoResponse;
 import com.springboot.blog.repository.*;
 import com.springboot.blog.service.CanHoService;
 import org.modelmapper.ModelMapper;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 

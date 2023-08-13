@@ -2,6 +2,7 @@ package com.springboot.blog.payload;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
@@ -15,7 +16,7 @@ public class HoaDonDto {
     @Schema(
             description = "Ngay lap"
     )
-    @NotEmpty
+    @NotNull
     @Size(min = 2, message = "Ngay lap mustn't be more than current day")
     private String ngayLap;
     private String trangThai;
@@ -24,26 +25,17 @@ public class HoaDonDto {
     @Schema(
             description = "Ngay thanh toan"
     )
-    @NotEmpty
+
     @Size(min = 2, message = "Ngay thanh toan mustn't be more than current day")
     private String ngayThanhToan;
+    @NotNull
     private Long hopDongId;
 
-//    @Schema(
-//            description = "chi tiet hoa don"
-//    )
-//    @NotEmpty
-//    private List<ChiTietHoaDon> chiTietHoaDonList;
-
-//    @Schema(
-//            description = "Can ho"
-//    )
-//    @NotEmpty
-//    private Long canHoId;
 
     @Schema(
             description = "Tong tien"
     )
-    @NotEmpty
+    
     private Long tongtien;
+
 }

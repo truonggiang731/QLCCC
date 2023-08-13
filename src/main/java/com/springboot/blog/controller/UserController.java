@@ -41,7 +41,7 @@ public class UserController {
         return new ResponseEntity<>(rsPass,HttpStatus.OK);
     }
     @GetMapping
-    public ResponseEntity<List<UserDto>> getAllUserByRoleId(){
-        return new ResponseEntity<>(userService.getAllUserByRoleId(), HttpStatus.OK);
+    public ResponseEntity<List<UserDto>> getAllUser(){
+        return new ResponseEntity<>(userService.getAllUser(), HttpStatus.OK);
     }
 }

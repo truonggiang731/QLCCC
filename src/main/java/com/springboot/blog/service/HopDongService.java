@@ -12,7 +12,8 @@ public interface HopDongService {
     HopDongDto getHopDongById(long id);
     void deleteHopDong(long id);
     List<HopDongDto> getHopDongByCanHoId(Long canHoId);
-    List<HopDongDto> getHopDongByUserId(Long userId);
+    List<HopDongDto> getHopDongByUserId();
     List<HopDongDto> getHopDongByDichVuId(Long dichVuid);
     List<HopDongDto> getAllHopDong();
+
 }

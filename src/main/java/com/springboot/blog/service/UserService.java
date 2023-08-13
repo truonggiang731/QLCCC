@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface UserService {
     UserDto getUserByUsernameOrEmail(String name);
-    List<UserDto> getAllUserByRoleId();
+    List<UserDto> getAllUser();
     UserDto updateUser(UserDto userDto, Long id);
     void deleteUser(Long id);
     UserDto resetPassword(ResetPasswordDto resetPasswordDto,Long id);

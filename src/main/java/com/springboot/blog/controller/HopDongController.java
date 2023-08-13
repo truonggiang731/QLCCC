@@ -39,9 +39,9 @@ public class HopDongController {
 
         return new ResponseEntity<>("Hop dong deleted.", HttpStatus.OK);
     }
-    @GetMapping("/user/{id}")
-    public ResponseEntity<List<HopDongDto>> getHopDongByUserId(@PathVariable("id") Long userId){
-        List<HopDongDto> hopDongs = hopDongService.getHopDongByUserId(userId);
+    @GetMapping("/user")
+    public ResponseEntity<List<HopDongDto>> getHopDongByUserId(){
+        List<HopDongDto> hopDongs = hopDongService.getHopDongByUserId();
         return ResponseEntity.ok(hopDongs);
     }
     @GetMapping("/canho/{id}")

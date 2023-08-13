@@ -16,10 +16,10 @@ public class HopDong {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @Temporal(TemporalType.DATE)
-    private Date ngaydangky;
-    @Temporal(TemporalType.DATE)
-    private Date ngayhethan;
+//    @Temporal(TemporalType.DATE)
+    private String ngaydangky;
+//    @Temporal(TemporalType.DATE)
+    private String ngayhethan;
     private String trangThai;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")

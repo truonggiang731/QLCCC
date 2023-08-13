@@ -15,8 +15,8 @@ import java.util.Date;
 @Data
 public class HopDongDto {
     private long id;
-    private Date ngaydangky;
-    private Date ngayhethan;
+    private String ngaydangky;
+    private String ngayhethan;
     private String trangThai;
 
     private long userId;

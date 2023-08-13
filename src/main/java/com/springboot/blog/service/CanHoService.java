@@ -1,8 +1,6 @@
 package com.springboot.blog.service;
 
-import com.springboot.blog.entity.CanHo;
 import com.springboot.blog.payload.CanHoDto;
-import com.springboot.blog.payload.CanHoResponse;
 
 import java.util.List;
 

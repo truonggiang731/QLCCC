@@ -33,6 +33,7 @@ public class HoaDonServiceImpl implements HoaDonService {
         HopDong hopDong = hopDongRepository.findById(hoaDonDto.getHopDongId())
                 .orElseThrow(() -> new ResourceNotFoundException("Hop dong", "id", hoaDonDto.getHopDongId()));
         HoaDon hoaDon = mapToEntity(hoaDonDto);
+        hoaDon.setTongTien(hopDong.getDichVu().getDonGia());
         hoaDon.setHopDong(hopDong);
         HoaDon newHoaDon = hoaDonRepository.save(hoaDon);
         return mapToDTO(newHoaDon);
@@ -88,5 +89,11 @@ public class HoaDonServiceImpl implements HoaDonService {
                 .orElseThrow(() -> new ResourceNotFoundException("Hoa don", "id", id));
         hoaDonRepository.delete(hoaDon);
 
+    }
+
+    @Override
+    public List<HoaDonDto> getAllHoaDon() {
+        List<HoaDon> hoaDons = hoaDonRepository.findAll();
+        return hoaDons.stream().map(hoaDon -> mapToDTO(hoaDon)).collect(Collectors.toList());
     }
 }

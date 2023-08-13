@@ -19,7 +19,6 @@ public class ToaNha {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    //@NotEmpty
     private String name;
 
     @OneToMany(mappedBy = "toaNha", cascade = CascadeType.ALL, orphanRemoval = true)

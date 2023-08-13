@@ -1,5 +1,6 @@
 package com.springboot.blog.controller;
 
+import com.springboot.blog.entity.HoaDon;
 import com.springboot.blog.payload.HoaDonDto;
 import com.springboot.blog.payload.HopDongDto;
 import com.springboot.blog.service.HoaDonService;
@@ -45,6 +46,10 @@ public class HoaDonController {
     public ResponseEntity<List<HoaDonDto>> getHoaDonByHopDongId(@PathVariable("id") Long hopDongId){
         List<HoaDonDto> hoaDonDtos = hoaDonService.getHoaDonByHopDongId(hopDongId);
         return ResponseEntity.ok(hoaDonDtos);
+    }
+    @GetMapping
+    public ResponseEntity<List<HoaDonDto>> getAllHoaDon(){
+        return new ResponseEntity<>(hoaDonService.getAllHoaDon(), HttpStatus.OK);
     }
 
 }

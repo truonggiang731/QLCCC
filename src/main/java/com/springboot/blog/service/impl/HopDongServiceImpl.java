@@ -4,6 +4,7 @@ import com.springboot.blog.entity.CanHo;
 import com.springboot.blog.entity.DichVu;
 import com.springboot.blog.entity.HopDong;
 import com.springboot.blog.entity.User;
+import com.springboot.blog.exception.BlogAPIException;
 import com.springboot.blog.exception.ResourceNotFoundException;
 import com.springboot.blog.payload.HopDongDto;
 import com.springboot.blog.repository.CanHoRepository;
@@ -12,6 +13,9 @@ import com.springboot.blog.repository.HopDongRepository;
 import com.springboot.blog.repository.UserRepository;
 import com.springboot.blog.service.HopDongService;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,8 +36,10 @@ public class HopDongServiceImpl implements HopDongService {
     }
     @Override
     public HopDongDto addHopDong(HopDongDto hopDongDto) {
-        User user = userRepository.findById(hopDongDto.getUserId())
-                .orElseThrow(() -> new ResourceNotFoundException("user", "id", hopDongDto.getUserId()));
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        User user = userRepository.findByUsernameOrEmail(currentPrincipalName,currentPrincipalName)
+                .orElseThrow(() -> new BlogAPIException(HttpStatus.NOT_FOUND, "Khong tim thay user"));
         CanHo canHo = canHoRepository.findById(hopDongDto.getCanHoId())
                 .orElseThrow(()->new ResourceNotFoundException("can ho","id",hopDongDto.getCanHoId()));
         DichVu dichVu = dichVuRepository.findById(hopDongDto.getDichVuId())
@@ -43,7 +49,9 @@ public class HopDongServiceImpl implements HopDongService {
         hopDong.setUser(user);
         hopDong.setCanHo(canHo);
         hopDong.setDichVu(dichVu);
+        canHo.setTrangThai("Được sử dụng");
         HopDong newHopDong = hopDongRepository.save(hopDong);
+        canHoRepository.save(canHo);
 
         return mapToDTO(newHopDong);
 
@@ -63,7 +71,6 @@ public class HopDongServiceImpl implements HopDongService {
     public HopDongDto updateHopDong(HopDongDto hopDongDto, long id) {
         HopDong hopDong = hopDongRepository.findById(hopDongDto.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("Hop Dong", "id", id));
-
         User user = userRepository.findById(hopDongDto.getUserId())
                 .orElseThrow(() -> new ResourceNotFoundException("user", "id", hopDongDto.getUserId()));
         CanHo canHo = canHoRepository.findById(hopDongDto.getCanHoId())
@@ -76,6 +83,7 @@ public class HopDongServiceImpl implements HopDongService {
         hopDong.setUser(user);
         hopDong.setCanHo(canHo);
         hopDong.setDichVu(dichVu);
+        hopDong.setTrangThai(hopDong.getTrangThai());
         HopDong updateHopDong = hopDongRepository.save(hopDong);
         return mapToDTO(updateHopDong);
 
@@ -105,11 +113,16 @@ public class HopDongServiceImpl implements HopDongService {
 
     }
 
+
+
+
     @Override
-    public List<HopDongDto> getHopDongByUserId(Long userid) {
-        User user = userRepository.findById(userid)
-                .orElseThrow(()->new ResourceNotFoundException("user","id",userid));
-        List<HopDong> hopDongs = hopDongRepository.findHopDongByUserId(userid);
+    public List<HopDongDto> getHopDongByUserId() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        User user = userRepository.findByUsernameOrEmail(currentPrincipalName, currentPrincipalName)
+                .orElseThrow(()->new BlogAPIException(HttpStatus.NOT_ACCEPTABLE, "khong get hop dong"));
+        List<HopDong> hopDongs = hopDongRepository.findHopDongByUserId(user.getId());
 
         return hopDongs.stream().map(hopDong -> mapToDTO(hopDong))
                 .collect(Collectors.toList());

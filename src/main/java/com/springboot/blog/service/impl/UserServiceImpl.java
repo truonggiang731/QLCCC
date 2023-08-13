@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDto> getAllUserByRoleId() {
+    public List<UserDto> getAllUser() {
         List<User> user = userRepository.findAll();
         return user.stream().map(user1 -> modelMapper.map(user1,UserDto.class)).collect(Collectors.toList());
     }
