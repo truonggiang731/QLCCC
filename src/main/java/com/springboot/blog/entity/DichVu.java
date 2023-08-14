@@ -19,13 +19,11 @@ public class DichVu {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String tenDichVu;
 
-    @Column(nullable = false)
     private long donGia;
 
-    @Column(nullable = false)
     private String trangThai;
 
     @ManyToOne(fetch = FetchType.LAZY)

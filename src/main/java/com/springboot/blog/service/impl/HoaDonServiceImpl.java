@@ -35,6 +35,7 @@ public class HoaDonServiceImpl implements HoaDonService {
         HoaDon hoaDon = mapToEntity(hoaDonDto);
         hoaDon.setTongTien(hopDong.getDichVu().getDonGia());
         hoaDon.setHopDong(hopDong);
+        hoaDon.setTrangThai("Chưa thanh toán");
         HoaDon newHoaDon = hoaDonRepository.save(hoaDon);
         return mapToDTO(newHoaDon);
     }

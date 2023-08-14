@@ -8,6 +8,7 @@ import java.util.List;
 public interface HopDongService {
 
     HopDongDto addHopDong(HopDongDto hopDongDto);
+    HopDongDto addHopDongForAdmin(HopDongDto hopDongDto);
     HopDongDto updateHopDong(HopDongDto hopDongDto, long id);
     HopDongDto getHopDongById(long id);
     void deleteHopDong(long id);

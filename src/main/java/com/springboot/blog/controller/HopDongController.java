@@ -19,8 +19,12 @@ public class HopDongController {
     }
 
     @PostMapping
-    public ResponseEntity<HopDongDto> addHopDong(@RequestBody HopDongDto hopDongDto){
+    public ResponseEntity<HopDongDto> addHopDong(@Valid @RequestBody HopDongDto hopDongDto){
         return new ResponseEntity<>(hopDongService.addHopDong(hopDongDto), HttpStatus.CREATED);
+    }
+    @PostMapping("/admin")
+    public ResponseEntity<HopDongDto> addHopDongForAdmin(@RequestBody HopDongDto hopDongDto){
+        return new ResponseEntity<>(hopDongService.addHopDongForAdmin(hopDongDto), HttpStatus.CREATED);
     }
     @GetMapping("/{id}")
     public ResponseEntity<HopDongDto> getHopDongById(@PathVariable(name = "id") long id){

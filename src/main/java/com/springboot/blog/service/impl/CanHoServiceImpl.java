@@ -108,7 +108,7 @@ public class CanHoServiceImpl implements CanHoService {
     public void deleteCanHo(long id) {
         CanHo canHo = canHoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Can Ho", "id", id));
         List<HopDong> hopDong = hopDongRepository.findHopDongByCanHoId(id);
-        if(hopDong == null) canHoRepository.delete(canHo);
+        if(hopDong.isEmpty()) canHoRepository.delete(canHo);
         else throw new BlogAPIException(HttpStatus.NOT_ACCEPTABLE, "can ho khong the xoa");
     }
 

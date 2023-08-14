@@ -57,6 +57,27 @@ public class HopDongServiceImpl implements HopDongService {
 
     }
 
+    @Override
+    public HopDongDto addHopDongForAdmin(HopDongDto hopDongDto) {
+        User user = userRepository.findById(hopDongDto.getId())
+                .orElseThrow(() -> new BlogAPIException(HttpStatus.NOT_FOUND, "Khong tim thay user"));
+        CanHo canHo = canHoRepository.findById(hopDongDto.getCanHoId())
+                .orElseThrow(()->new ResourceNotFoundException("can ho","id",hopDongDto.getCanHoId()));
+        DichVu dichVu = dichVuRepository.findById(hopDongDto.getDichVuId())
+                .orElseThrow(()->new ResourceNotFoundException("dich vu","id",hopDongDto.getDichVuId()));
+
+        HopDong hopDong = mapToEntity(hopDongDto);
+        hopDong.setUser(user);
+        hopDong.setCanHo(canHo);
+        hopDong.setDichVu(dichVu);
+        canHo.setTrangThai("Được sử dụng");
+        dichVu.setTrangThai("Được sử dụng");
+        HopDong newHopDong = hopDongRepository.save(hopDong);
+        canHoRepository.save(canHo);
+
+        return mapToDTO(newHopDong);
+    }
+
     private HopDongDto mapToDTO(HopDong newHopDong) {
         HopDongDto hopDongDto = modelMapper.map(newHopDong, HopDongDto.class);
         return  hopDongDto;

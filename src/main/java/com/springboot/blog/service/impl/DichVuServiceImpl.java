@@ -1,13 +1,17 @@
 package com.springboot.blog.service.impl;
 
 import com.springboot.blog.entity.DichVu;
+import com.springboot.blog.entity.HopDong;
 import com.springboot.blog.entity.LoaiDichVu;
+import com.springboot.blog.exception.BlogAPIException;
 import com.springboot.blog.exception.ResourceNotFoundException;
 import com.springboot.blog.payload.DichVuDto;
 import com.springboot.blog.repository.DichVuRepository;
+import com.springboot.blog.repository.HopDongRepository;
 import com.springboot.blog.repository.LoaiDichVuRepository;
 import com.springboot.blog.service.DichVuService;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,9 +21,13 @@ import java.util.stream.Collectors;
 public class DichVuServiceImpl implements DichVuService {
     private DichVuRepository dichVuRepository;
     private LoaiDichVuRepository loaiDichVuRepository;
+    private HopDongRepository hopDongRepository;
     private ModelMapper modelMapper;
-    public DichVuServiceImpl(DichVuRepository dichVuRepository, ModelMapper modelMapper, LoaiDichVuRepository loaiDichVuRepository){
+    public DichVuServiceImpl(DichVuRepository dichVuRepository, ModelMapper modelMapper,
+                             LoaiDichVuRepository loaiDichVuRepository,
+                             HopDongRepository hopDongRepository){
         this.dichVuRepository =dichVuRepository;
+        this.hopDongRepository = hopDongRepository;
         this.loaiDichVuRepository = loaiDichVuRepository;
         this.modelMapper = modelMapper;
     }
@@ -66,7 +74,12 @@ public class DichVuServiceImpl implements DichVuService {
     @Override
     public void deleteDichVu(Long id) {
         DichVu dichVu = dichVuRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Dich vu", "id", id));
+        List<HopDong> hopDongs = hopDongRepository.findHopDongByDichVuId(id);
+        if(hopDongs.isEmpty())
         dichVuRepository.delete(dichVu);
+        else {
+            throw new BlogAPIException(HttpStatus.NOT_ACCEPTABLE, "Không thể xóa dịch vụ đã có hợp đồng");
+        }
     }
 
     @Override
