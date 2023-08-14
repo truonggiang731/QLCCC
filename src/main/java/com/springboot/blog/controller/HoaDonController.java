@@ -51,5 +51,9 @@ public class HoaDonController {
     public ResponseEntity<List<HoaDonDto>> getAllHoaDon(){
         return new ResponseEntity<>(hoaDonService.getAllHoaDon(), HttpStatus.OK);
     }
+    @GetMapping("/unpaid")
+    public ResponseEntity<List<HoaDonDto>> getAllHoaDonUnpaid(){
+        return new ResponseEntity<>(hoaDonService.getHoaDonUnpaid(), HttpStatus.OK);
+    }
 
 }

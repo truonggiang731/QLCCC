@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Getter
@@ -14,17 +13,12 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "hoadon")
-public class HoaDon {
+@Table(name = "contract")
+public class Contract {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable = false)
-    private LocalDate ngayLap;
-    private LocalDate ngayThanhToan;
-    private Long tongTien;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "hopdong_id")
-    private HopDong hopDong;
-    private String trangThai;
+    @OneToMany(mappedBy = "contract", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Invoice> invoices;
+    // Other fields and getters/setters
 }

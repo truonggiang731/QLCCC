@@ -6,6 +6,8 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
+import java.time.LocalDate;
+
 @Data
 @Schema(
         description = "HoaDonDto"
@@ -18,7 +20,7 @@ public class HoaDonDto {
     )
     @NotNull
     @Size(min = 2, message = "Ngay lap mustn't be more than current day")
-    private String ngayLap;
+    private LocalDate ngayLap;
     private String trangThai;
 
 
@@ -27,7 +29,7 @@ public class HoaDonDto {
     )
 
     @Size(min = 2, message = "Ngay thanh toan mustn't be more than current day")
-    private String ngayThanhToan;
+    private LocalDate ngayThanhToan;
     @NotNull
     private Long hopDongId;
 

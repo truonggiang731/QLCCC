@@ -19,7 +19,7 @@ public class HopDongController {
     }
 
     @PostMapping
-    public ResponseEntity<HopDongDto> addHopDong(@Valid @RequestBody HopDongDto hopDongDto){
+    public ResponseEntity<HopDongDto> addHopDong(@RequestBody HopDongDto hopDongDto){
         return new ResponseEntity<>(hopDongService.addHopDong(hopDongDto), HttpStatus.CREATED);
     }
     @PostMapping("/admin")
@@ -32,7 +32,7 @@ public class HopDongController {
     }
     //@PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
-    public ResponseEntity<HopDongDto> updateHopDong(@Valid @RequestBody HopDongDto hopDongDto, @PathVariable(name = "id") long id){
+    public ResponseEntity<HopDongDto> updateHopDong( @RequestBody HopDongDto hopDongDto, @PathVariable(name = "id") long id){
         HopDongDto hopDongResponse = hopDongService.updateHopDong(hopDongDto, id);
         return new ResponseEntity<>(hopDongResponse, HttpStatus.OK);
     }
@@ -58,7 +58,7 @@ public class HopDongController {
         List<HopDongDto> hopDongDtos = hopDongService.getHopDongByDichVuId(dichVuId);
         return ResponseEntity.ok(hopDongDtos);
     }
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<List<HopDongDto>> getAllHopDong(){
         return new ResponseEntity<>(hopDongService.getAllHopDong(), HttpStatus.OK);
     }

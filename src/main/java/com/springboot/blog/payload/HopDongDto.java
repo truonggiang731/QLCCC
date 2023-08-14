@@ -10,13 +10,14 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Data
 public class HopDongDto {
     private long id;
-    private String ngaydangky;
-    private String ngayhethan;
+    private LocalDate ngaydangky;
+    private LocalDate ngayhethan;
     private String trangThai;
 
     private long userId;

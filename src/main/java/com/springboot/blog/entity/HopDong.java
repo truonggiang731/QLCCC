@@ -3,6 +3,7 @@ package com.springboot.blog.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -17,9 +18,9 @@ public class HopDong {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 //    @Temporal(TemporalType.DATE)
-    private String ngaydangky;
+    private LocalDate ngaydangky;
 //    @Temporal(TemporalType.DATE)
-    private String ngayhethan;
+    private LocalDate ngayhethan;
     private String trangThai;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")

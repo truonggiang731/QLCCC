@@ -49,6 +49,7 @@ public class HopDongServiceImpl implements HopDongService {
         hopDong.setUser(user);
         hopDong.setCanHo(canHo);
         hopDong.setDichVu(dichVu);
+        hopDong.setTrangThai("Được sử dụng");
         canHo.setTrangThai("Được sử dụng");
         HopDong newHopDong = hopDongRepository.save(hopDong);
         canHoRepository.save(canHo);
@@ -59,7 +60,7 @@ public class HopDongServiceImpl implements HopDongService {
 
     @Override
     public HopDongDto addHopDongForAdmin(HopDongDto hopDongDto) {
-        User user = userRepository.findById(hopDongDto.getId())
+        User user = userRepository.findById(hopDongDto.getUserId())
                 .orElseThrow(() -> new BlogAPIException(HttpStatus.NOT_FOUND, "Khong tim thay user"));
         CanHo canHo = canHoRepository.findById(hopDongDto.getCanHoId())
                 .orElseThrow(()->new ResourceNotFoundException("can ho","id",hopDongDto.getCanHoId()));
@@ -70,6 +71,7 @@ public class HopDongServiceImpl implements HopDongService {
         hopDong.setUser(user);
         hopDong.setCanHo(canHo);
         hopDong.setDichVu(dichVu);
+        hopDong.setTrangThai("Được sử dụng");
         canHo.setTrangThai("Được sử dụng");
         dichVu.setTrangThai("Được sử dụng");
         HopDong newHopDong = hopDongRepository.save(hopDong);
@@ -90,7 +92,7 @@ public class HopDongServiceImpl implements HopDongService {
 
     @Override
     public HopDongDto updateHopDong(HopDongDto hopDongDto, long id) {
-        HopDong hopDong = hopDongRepository.findById(hopDongDto.getId())
+        HopDong hopDong = hopDongRepository.findHopDongById(hopDongDto.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("Hop Dong", "id", id));
         User user = userRepository.findById(hopDongDto.getUserId())
                 .orElseThrow(() -> new ResourceNotFoundException("user", "id", hopDongDto.getUserId()));
