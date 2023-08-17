@@ -19,6 +19,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -88,6 +89,8 @@ public class HoaDonServiceImpl implements HoaDonService {
 
         hoaDon.setNgayLap(hoaDonDto.getNgayLap());
         hoaDon.setNgayThanhToan(hoaDonDto.getNgayThanhToan());
+        if(hoaDon.getNgayThanhToan()== null) hoaDon.setTrangThai("Chưa thanh toán");
+        else hoaDon.setTrangThai("Đã thanh toán");
         hoaDon.setTongTien(dichVu.getDonGia());
         hoaDon.setHopDong(hopDong);
         HoaDon updateHoaDon = hoaDonRepository.save(hoaDon);
@@ -117,5 +120,14 @@ public class HoaDonServiceImpl implements HoaDonService {
         List<HoaDon> hoaDons = hoaDonRepository.findHoaDonByUserIdAndTrangThai(user.getId());
         return hoaDons.stream().map(hoaDon -> mapToDTO(hoaDon)).collect(Collectors.toList());
 
+    }
+
+    @Override
+    public HoaDonDto paidHoaDon(Long id) {
+        HoaDon hoaDon = hoaDonRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Khong co hoa don","id", id));
+        hoaDon.setTrangThai("Đã thanh toán");
+        LocalDate localDate = LocalDate.now();
+        hoaDon.setNgayThanhToan(localDate);
+        return mapToDTO(hoaDon);
     }
 }

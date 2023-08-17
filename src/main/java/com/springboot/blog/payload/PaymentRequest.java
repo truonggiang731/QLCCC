@@ -1,16 +1,21 @@
 package com.springboot.blog.payload;
 
-import lombok.AllArgsConstructor;
+
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Setter
 @Getter
-@NoArgsConstructor
-@AllArgsConstructor
+@Setter
 public class PaymentRequest {
-    private String token;
-    private Long hoaDonId;
 
+    private String token;
+    private Long invoiceId;
+
+    public Long getInvoiceId() {
+        return invoiceId;
+    }
+
+    public void setInvoiceId(Long invoiceId) {
+        this.invoiceId = invoiceId;
+    }
 }

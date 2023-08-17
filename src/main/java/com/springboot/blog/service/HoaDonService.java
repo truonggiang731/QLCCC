@@ -12,4 +12,5 @@ public interface HoaDonService {
     void deleteHoaDon(Long id);
     List<HoaDonDto> getAllHoaDon();
     List<HoaDonDto> getHoaDonUnpaid();
+    HoaDonDto paidHoaDon(Long id);
 }
